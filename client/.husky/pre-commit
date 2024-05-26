@@ -1,5 +1,16 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Check for changes inside the client directory
+changes_in_client=$(git diff --cached --name-only | grep -E '^client/')
+
+if [ -z "$changes_in_client" ]; then
+  echo "No changes in the client folder. Skipping Husky pre-commit hook."
+  exit 0
+fi
+
+# If changes are detected in the client directory, run the pre-commit tasks
+echo "Changes detected in the client folder. Running Husky pre-commit hook."
+
 cd client || exit 1
 npx jest --coverage && npx lint-staged 
