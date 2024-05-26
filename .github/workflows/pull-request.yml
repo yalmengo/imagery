@@ -1,0 +1,45 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+
+jobs:
+  branch-naming-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: deepakputhraya/action-branch-name@master
+        with:
+          regex: '^(feat|stable|fix|docs|style|refactor|perf|test|chore|ci)\/[a-z0-9]+.*$' # Updated regex
+          allowed_prefixes: 'feat,stable,fix,docs,style,refactor,perf,test,chore,ci' # All branches should start with the given prefix
+          ignore: master,develop # Ignore exactly matching branch names from convention
+          min_length: 5 # Min length of the branch name
+          max_length: 50 # Max length of the branch name
+
+  test-coverage:
+    runs-on: ubuntu-latest
+    needs: branch-naming-rules
+    if: needs.branch-naming-rules.result == 'success'
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ArtiomTr/jest-coverage-report-action@v2
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: test-coverage
+    if: needs.test-coverage.result == 'success'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run ESLint Checks
+        run: npm run lint
+
