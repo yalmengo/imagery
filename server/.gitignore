@@ -1,0 +1,22 @@
+# Compiled class files
+/target/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Gradle files
+.gradle/
+build/
+
+# Maven files
+*/target/
+*/.mvn/
+
+# Logs
+/logs/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
