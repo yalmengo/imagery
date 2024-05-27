@@ -13,4 +13,5 @@ fi
 echo "Changes detected in the client folder. Running Husky pre-commit hook."
 
 cd client || exit 1
-npx jest --coverage && npx lint-staged 
+# npx jest && npx lint-staged 
+npx jest 

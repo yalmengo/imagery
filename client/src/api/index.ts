@@ -7,7 +7,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:3000/',
+  baseUrl: 'http://localhost:8080/api/',
 });
 
 const baseQueryWithInterceptor: BaseQueryFn<
